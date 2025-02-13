@@ -4821,6 +4821,8 @@ class OctoslackPlugin(
         upload_rsp = None
         with open(local_file_path, "rb") as file_to_upload:
             if slack_client2:
+                # Slack API method files.upload will be deprecated on March 11, 2025
+                # https://api.slack.com/changelog/2024-04-a-better-way-to-upload-files-is-here-to-stay
                 upload_rsp = slack_client2.api_call(
                     "files.upload",
                     channels=channels,
@@ -4829,7 +4831,7 @@ class OctoslackPlugin(
                     file=file_to_upload,
                 )
             elif slack_client3:
-                upload_rsp = slack_client3.files_upload(
+                upload_rsp = slack_client3.files_upload_v2(
                     channels=channels,
                     filename=dest_filename,
                     title=file_description,
